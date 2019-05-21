@@ -5,19 +5,18 @@ import {
   getAccountLists,
   getListData,
   clearMovies,
-  createList,
   updateList,
   deleteList
 } from "../actions/apiActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Table from "./Table";
-import EditListTitle from "./EditListTitle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import PropTypes from "prop-types";
 
 class ListModal extends Component {
   state = {
@@ -59,8 +58,6 @@ class ListModal extends Component {
     }
   }
 
-  //
-
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -68,7 +65,6 @@ class ListModal extends Component {
     this.setState({ anchorEl: null });
   };
   render() {
-    console.log(this.props);
     const { listData } = this.props;
     const { anchorEl } = this.state;
     return (
@@ -81,7 +77,7 @@ class ListModal extends Component {
         >
           <i
             style={{ position: "absolute", right: "2rem", top: "2rem" }}
-            class="material-icons icon-cursor"
+            className="material-icons icon-cursor"
             onClick={() => this.props.handleClose("")}
           >
             clear
@@ -94,16 +90,7 @@ class ListModal extends Component {
                 direction="column"
                 justify="center"
                 alignItems="center"
-                // style={{ border: "2px solid red" }}
               >
-                {/* {this.state.edit && (
-                  <EditListTitle
-                    handleUserInput={this.handleUserInput}
-                    name={this.state.name}
-                    desc={this.state.desc}
-                  />
-                )} */}
-
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorEl}
@@ -170,9 +157,6 @@ class ListModal extends Component {
                   </MenuItem>
                   <MenuItem
                     style={{ color: "red" }}
-                    // onClick={e => {
-                    //   this.handleClose();
-                    // }}
                     onClick={() => {
                       if (
                         window.confirm(
@@ -192,10 +176,8 @@ class ListModal extends Component {
                   <div>
                     <div className="center">
                       <h1>{this.state.name}</h1>
-
                       <i
-                        class="material-icons icon-cursor"
-                        // onClick={() => this.toggleEdit()}
+                        className="material-icons icon-cursor"
                         onClick={this.handleClick}
                       >
                         edit
@@ -223,24 +205,6 @@ class ListModal extends Component {
                       <p />
                     </div>
                     <hr />
-
-                    {/* <table style={{ width: "100%" }}>
-                      <tr>
-                        <th>Movie</th>
-                        <th>Rating</th>
-                        <th>Realease Date</th>
-                      </tr>
-
-                      {listData.results.map(movie => (
-                        //   <p>{movie.original_title}</p>
-                        <tr>
-                          <td>{movie.original_title}</td>
-                          <td>{movie.vote_average}</td>
-                          <td>{movie.release_date}</td>
-                        </tr>
-                      ))}
-                    </table> */}
-
                     <Table
                       listData={listData}
                       handleSelect={this.props.handleSelect}
@@ -263,34 +227,23 @@ class ListModal extends Component {
 
 const mapStateToProps = state => ({
   listData: state.api.listData
-
-  //isAuthorised: state.api.isAuth //nes reducer/index.js combinereucer yra posts: postReduceer
-  //sessionToken: state.api.sessionToken
 });
+
+ListModal.propTypes = {
+  list: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  listData: PropTypes.oneOfType([
+    PropTypes.object.isRequired,
+    PropTypes.oneOf([null]).isRequired
+  ]),
+  clearMovies: PropTypes.func.isRequired,
+  deleteList: PropTypes.func.isRequired,
+  getListData: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  updateList: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
   { getAccountLists, getListData, clearMovies, updateList, deleteList }
 )(ListModal);
-
-/* <h1>{listData.name}</h1>
-                <p>
-                  <em>{listData.description}</em>
-                </p> */
-
-/* <table style={{ width: "100%" }}>
-                      <tr>
-                        <th>Movie</th>
-                        <th>Rating</th>
-                        <th>Realease Date</th>
-                      </tr>
-
-                      {listData.results.map(movie => (
-                        //   <p>{movie.original_title}</p>
-                        <tr>
-                          <td>{movie.original_title}</td>
-                          <td>{movie.vote_average}</td>
-                          <td>{movie.release_date}</td>
-                        </tr>
-                      ))}
-                    </table> */

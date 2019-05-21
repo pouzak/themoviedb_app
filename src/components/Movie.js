@@ -1,18 +1,15 @@
-import React, { Component, useRef } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-//import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import {
   clearCheckList,
-  createList,
   checkAllLists,
   addMovie,
   deleteMovie
 } from "../actions/apiActions";
-//import AddMovie from "./AddMovie";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import CreateList from "./CreateList";
-
 import Checkbox from "@material-ui/core/Checkbox";
 
 const image = "https://image.tmdb.org/t/p/w500";
@@ -33,7 +30,6 @@ class Movie extends Component {
         list: false
       });
     }
-    //console.log(this.movieRef.current.contains(event.target));
   };
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
@@ -57,10 +53,6 @@ class Movie extends Component {
     }
   }
 
-  // componentWillUnmount() {
-  //   this.props.clearCheckList();
-  // }
-
   showlist = () => {
     // this.props.clearCheckList();
     this.setState({
@@ -68,20 +60,12 @@ class Movie extends Component {
     });
   };
 
-  // componentWillUnmount() {
-  //   this.setState({
-  //     list: false
-  //   });
-  // }
-
   renderList() {
     const { lists } = this.props;
-
     return (
       <div>
-        {lists.map(list => (
-          <div className="1">
-            {/* <AddMovie list={list} movieid={this.props.movie.id} /> */}
+        {lists.map((list, index) => (
+          <div key={index} className="1">
             {this.props.exist ? (
               !this.props.exist.find(id => id === list.id) ? (
                 <div>
@@ -93,7 +77,6 @@ class Movie extends Component {
                     onChange={() =>
                       this.props.addMovie(list.id, this.props.movie.id)
                     }
-                    //value="checkedA"
                   />
                   <a> {list.name}</a>
                 </div>
@@ -104,7 +87,6 @@ class Movie extends Component {
                     onChange={() =>
                       this.props.deleteMovie(list.id, this.props.movie.id)
                     }
-                    //value="checkedA"
                   />{" "}
                   <a> {list.name}</a>
                 </div>
@@ -118,9 +100,7 @@ class Movie extends Component {
 
   renderGenres(ids) {
     const { genres } = this.props;
-
     const matchedGenres = ids.map(id => genres[id]);
-
     return matchedGenres.map(genre => (
       <span style={{ marginRight: 3 }} key={genre.name}>
         | {genre.name}
@@ -130,17 +110,16 @@ class Movie extends Component {
   render() {
     const { movie } = this.props;
     const { list } = this.state;
-    //const btn = this.props.list.length > 0 ? false : true;
     return (
       <div style={{ padding: "0.1px" }}>
-        <Grid container spacing={2} direction="row">
+        <Grid container spacing={0} direction="row">
           <Grid item className="movie-image" xs={6} sm={5}>
             <img
               src={`${image}${movie.poster_path}`}
               alt={movie.original_title}
             />
           </Grid>
-          <Grid item xs xs={12} sm={7}>
+          <Grid item xs sm={7}>
             <div className="movie-info">
               <h1>{movie.title}</h1>
               <h2>Vote average: {movie.vote_average}/10</h2>
@@ -148,11 +127,7 @@ class Movie extends Component {
               <p>Genres: {this.renderGenres(movie.genre_ids)}</p>
               <p>Release date: {movie.release_date}</p>
               <hr />
-
-              {/* <img src={`${image}${movie.poster_path}`} alt={movie.original_title} /> */}
-
               <p className="movie-review">{movie.overview}</p>
-
               <div>
                 <div className="center">
                   <Button
@@ -162,7 +137,10 @@ class Movie extends Component {
                     onClick={this.showlist}
                   >
                     Add to list{" "}
-                    <i style={{ paddingLeft: "1rem" }} class="material-icons">
+                    <i
+                      style={{ paddingLeft: "1rem" }}
+                      className="material-icons"
+                    >
                       favorite_border
                     </i>
                   </Button>
@@ -170,7 +148,7 @@ class Movie extends Component {
                     onClick={() => this.props.handleSelect("")}
                     variant="outlined"
                     color="primary"
-                    size="sm"
+                    size="small"
                   >
                     back
                   </Button>
@@ -195,12 +173,22 @@ class Movie extends Component {
 
 const mapStateToProps = state => ({
   lists: state.api.lists,
-  list: state.api.list,
+  // list: state.api.list, ???
   genres: state.api.genres,
   exist: state.api.itemExist
-  //isAuthorised: state.api.isAuth //nes reducer/index.js combinereucer yra posts: postReduceer
-  //sessionToken: state.api.sessionToken
 });
+
+Movie.propTypes = {
+  movie: PropTypes.object.isRequired,
+  lists: PropTypes.array.isRequired,
+  genres: PropTypes.object.isRequired,
+  exist: PropTypes.array.isRequired,
+  addMovie: PropTypes.func.isRequired,
+  checkAllLists: PropTypes.func.isRequired,
+  clearCheckList: PropTypes.func.isRequired,
+  deleteMovie: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

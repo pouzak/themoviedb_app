@@ -4,18 +4,17 @@ import { getTopRatedMovies, getGenres } from "../actions/apiActions";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import PropTypes from "prop-types";
 
 const image = "https://image.tmdb.org/t/p/w500";
 
 class TopRatedMovies extends Component {
   componentDidMount() {
-    if (!this.props.topMovies) {
+    if (!this.props.topMovies.length) {
       this.props.getGenres();
       this.props.getTopRatedMovies();
     }
@@ -33,7 +32,6 @@ class TopRatedMovies extends Component {
     ));
   }
   render() {
-    //console.log(this.props.genres);
     const { topMovies } = this.props;
     return (
       <div>
@@ -65,7 +63,6 @@ class TopRatedMovies extends Component {
                     key={index}
                     onClick={() => this.props.handleSelect(movie)}
                   >
-                    {/* <div className="movie-card">{movie.original_title}</div> */}
                     <Card className="movie-card">
                       <CardActionArea>
                         <CardMedia
@@ -105,9 +102,16 @@ class TopRatedMovies extends Component {
 
 const mapStateToProps = state => ({
   topMovies: state.api.topMovies,
-  genres: state.api.genres //nes reducer/index.js combinereucer yra posts: postReduceer
-  //sessionToken: state.api.sessionToken
+  genres: state.api.genres
 });
+
+TopRatedMovies.propTypes = {
+  genres: PropTypes.object.isRequired,
+  topMovies: PropTypes.array.isRequired,
+  getGenres: PropTypes.func.isRequired,
+  getTopRatedMovies: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

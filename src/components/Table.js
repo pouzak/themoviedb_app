@@ -2,6 +2,7 @@ import React from "react";
 import Pagination from "react-paginating";
 import { deleteMovie } from "../actions/apiActions";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const limit = 2;
 const pageCount = 3;
@@ -20,34 +21,13 @@ class Table extends React.Component {
     while (array.length) {
       results.push(array.splice(0, 6));
     }
-
     this.setState({ data: results });
   };
-
-  // componentDidMount() {
-  //   const results = [];
-  //   while (this.props.listData.results.length) {
-  //     results.push(this.props.listData.results.splice(0, 6));
-  //   }
-
-  //   this.setState({ data: results });
-  // }
 
   componentDidMount() {
     this.refactorArray(this.props.listData.results);
   }
-  // updateData = movieid => {
-  //   const newData = this.state.data.map(arr =>
-  //     arr.filter(item => {
-  //       return item.id !== movieid;
-  //     })
-  //   );
 
-  //   this.setState({
-  //     ...this.state,
-  //     data: newData
-  //   });
-  // };
   updateData = movieid => {
     const newData = this.state.data.map(arr =>
       arr.filter(item => {
@@ -65,25 +45,18 @@ class Table extends React.Component {
   };
 
   render() {
-    console.log(this.state.data);
     const { currentPage, data } = this.state;
     return (
       <div>
         {data.length > 0 ? (
           <div>
-            {/* <ul>
-          {fruits[currentPage - 1].map(item => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul> */}
-
             <table style={{ width: "100%" }}>
               <tr>
                 <th>Movie</th>
                 <th>Rating</th>
                 <th>Realease Date</th>
                 <th>
-                  <i class="material-icons icon-cursor">settings</i>
+                  <i className="material-icons icon-cursor">settings</i>
                 </th>
               </tr>
               {data[currentPage - 1]
@@ -104,7 +77,7 @@ class Table extends React.Component {
                       <td>{movie.release_date}</td>
                       <td>
                         <i
-                          class="material-icons icon-cursor"
+                          className="material-icons icon-cursor"
                           onClick={() => {
                             if (
                               window.confirm(
@@ -173,7 +146,7 @@ class Table extends React.Component {
                       let activePage = null;
                       if (currentPage === page) {
                         activePage = {
-                          /* backgroundColor: "#fdce09" */ padding: "5px 12px"
+                          padding: "5px 12px"
                         };
                       }
                       return (
@@ -222,6 +195,13 @@ class Table extends React.Component {
     );
   }
 }
+
+Table.propTypes = {
+  listData: PropTypes.object.isRequired,
+  deleteMovie: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired
+};
 export default connect(
   null,
   { deleteMovie }

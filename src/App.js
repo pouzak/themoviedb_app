@@ -1,18 +1,15 @@
 import React, { Component } from "react";
-//import Login from "./components/Login";
 import Lists from "./components/Lists";
 import Search from "./components/Search";
 import Movie from "./components/Movie";
 import TopRatedMovies from "./components/TopRatedMovies";
-//import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-
 import "./App.css";
 import { Provider } from "react-redux";
-
-import store from "./store";
+import store from "./services/store";
 import Fade from "@material-ui/core/Fade";
 import "material-design-icons/iconfont/material-icons.css";
+
 const imagepath = "https://image.tmdb.org/t/p/w1280";
 
 export class App extends Component {
@@ -101,19 +98,3 @@ export class App extends Component {
 }
 
 export default App;
-
-/* <BrowserRouter>
-          <div>
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route path="/login" component={Login} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-        
-        
-        
-        
-        backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",*/

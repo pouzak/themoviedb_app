@@ -1,6 +1,5 @@
 export const GET_REQ_TOKEN = "GET_REQ_TOKEN";
 export const START_SESSION = "START_SESSION";
-
 export const FETCH_POSTS = "FETCH_POSTS";
 export const NEW_POST = "NEW_POST";
 export const FETCH_CFG = "FETCH_CFG";
@@ -13,7 +12,6 @@ export const GET_LIST_DATA = "GET_LIST_DATA";
 export const SEARCH_MOVIES = "SEARCH_MOVIES";
 export const CLEAR_MOVIES = "CLEAR_MOVIES";
 export const GET_ALL_LISTS_DATA = "GET_ALL_LISTS_DATA";
-
 export const ITEM_EXIST = "ITEM_EXIST";
 export const ADD_MOVIE = "ADD_MOVIE";
 export const CREATE_NEW_LIST = "CREATE_NEW_LIST";

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { searchMovies, clearMovies } from "../actions/apiActions";
 import debounce from "lodash.debounce";
+import PropTypes from "prop-types";
 
 class Search extends Component {
   constructor() {
@@ -20,11 +21,12 @@ class Search extends Component {
         dropdown: false
       });
     }
-    //console.log(this.movieRef.current.contains(event.target));
   };
+
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
+
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
   }
@@ -37,7 +39,7 @@ class Search extends Component {
     });
 
     this.handleSearch();
-    if (input.length < 4) {
+    if (input.length === 4) {
       this.props.clearMovies();
     }
   };
@@ -58,15 +60,12 @@ class Search extends Component {
   };
 
   renderResults() {
-    //console.log(this.props);
     const { movies, handleSelect } = this.props;
     return (
       <div>
         {movies.map(movie => (
-          <div>
+          <div key={movie.id}>
             <p
-              key={movie.id}
-              //className={`item ${movie.favorite ? "favoriteItem" : ""}`}
               onClick={() => {
                 handleSelect(movie);
                 // this.props.clearMovies();
@@ -80,13 +79,10 @@ class Search extends Component {
   }
   render() {
     const { input, dropdown } = this.state;
-    //const { movies } = this.props;
-    //console.log(this.props);
-    // /className="container"
     return (
       <div ref={this.movieRef}>
         <div className="input-container center" style={{ paddingTop: "7%" }}>
-          <i class="material-icons">search</i>
+          <i className="material-icons">search</i>
           <input
             className="input"
             onChange={this.hendleInput}
@@ -110,9 +106,15 @@ class Search extends Component {
 }
 
 const mapStateToProps = state => ({
-  movies: state.api.movies //nes reducer/index.js combinereucer yra posts: postReduceer
-  //sessionToken: state.api.sessionToken
+  movies: state.api.movies
 });
+
+Search.propTypes = {
+  movies: PropTypes.array.isRequired,
+  clearMovies: PropTypes.func.isRequired,
+  searchMovies: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

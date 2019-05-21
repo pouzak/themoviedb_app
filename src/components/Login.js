@@ -6,6 +6,7 @@ import {
   getAccountLists
 } from "../actions/apiActions";
 import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
 
 export class Login extends Component {
   state = {
@@ -30,7 +31,7 @@ export class Login extends Component {
     this.props.getRequestToken();
   }
   render() {
-    //console.log(this.props);
+    console.log(this.props);
     return (
       <div className="container">
         {this.props.reqToken && !this.state.access ? (
@@ -39,7 +40,7 @@ export class Login extends Component {
             variant="contained"
             color="primary"
           >
-            approve req
+            approve request
           </Button>
         ) : null}
         {this.state.access ? (
@@ -48,10 +49,9 @@ export class Login extends Component {
             variant="contained"
             color="secondary"
           >
-            get acces token
+            get access token
           </Button>
         ) : null}
-        {/* {this.props.isAuthorised ? <Redirect to={"/"} /> : null} */}
         {this.props.isAuthorised ? this.props.getAccountLists() : null}
       </div>
     );
@@ -60,9 +60,15 @@ export class Login extends Component {
 
 const mapStateToProps = state => ({
   reqToken: state.api.reqToken,
-  isAuthorised: state.api.isAuth //nes reducer/index.js combinereucer yra posts: postReduceer
-  //sessionToken: state.api.sessionToken
+  isAuthorised: state.api.isAuth
 });
+
+Login.propTypes = {
+  isAuthorised: PropTypes.bool.isRequired,
+  getAccessToken: PropTypes.func.isRequired,
+  getAccountLists: PropTypes.func.isRequired,
+  getRequestToken: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
