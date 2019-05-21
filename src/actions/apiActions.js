@@ -1,7 +1,5 @@
 import axios from "axios";
 import {
-  read_access_token,
-  api_key,
   updateListAPI,
   deleteListAPI,
   getGenresAPI,
@@ -9,7 +7,11 @@ import {
   createListAPI,
   deleteMovieAPI,
   addMovieAPI,
-  searchMoviesAPI
+  searchMoviesAPI,
+  getRequestTokenAPI,
+  getAccessTokenAPI,
+  getAccountListsAPI,
+  getListDataAPI
 } from "../services/connection";
 import {
   GET_REQ_TOKEN,
@@ -121,62 +123,26 @@ export const searchMovies = query => (dispatch, getState) => {
   }
 };
 
-export const getRequestToken = () => (dispatch, getState) => {
-  const config = {
-    headers: {
-      Authorization: `bearer ${read_access_token}`,
-      "Content-Type": "application/json"
-    }
-  };
-
-  axios
-    .post("https://api.themoviedb.org/4/auth/request_token", {}, config)
-    .then(res =>
-      dispatch({
-        type: GET_REQ_TOKEN,
-        payload: res.data
-      })
-    );
+export const getRequestToken = () => dispatch => {
+  getRequestTokenAPI().then(res =>
+    dispatch({
+      type: GET_REQ_TOKEN,
+      payload: res.data
+    })
+  );
 };
 
 export const getAccessToken = () => (dispatch, getState) => {
-  const config = {
-    headers: {
-      Authorization: `bearer ${read_access_token}`,
-      "Content-Type": "application/json"
-    }
-  };
-
-  axios
-    .post(
-      "https://api.themoviedb.org/4/auth/access_token",
-      {
-        request_token: getState().api.reqToken.request_token
-      },
-      config
-    )
-    .then(res =>
-      dispatch({
-        type: GET_ACCESS_TOKEN,
-        payload: res.data
-      })
-    );
+  getAccessTokenAPI(getState).then(res =>
+    dispatch({
+      type: GET_ACCESS_TOKEN,
+      payload: res.data
+    })
+  );
 };
 
 export const getAccountLists = () => (dispatch, getState) => {
-  const config = {
-    headers: {
-      Authorization: `bearer ${getState().api.accessToken}`,
-      "Content-Type": "application/json"
-    }
-  };
-  axios
-    .get(
-      `https://api.themoviedb.org/4/account/${
-        getState().api.account_id
-      }/lists?page=1`,
-      config
-    )
+  getAccountListsAPI(getState)
     .then(res =>
       dispatch({
         type: GET_ACC_LISTS,
@@ -191,20 +157,12 @@ export const getAccountLists = () => (dispatch, getState) => {
 };
 
 export const getListData = id => (dispatch, getState) => {
-  const config = {
-    headers: {
-      Authorization: `bearer ${getState().api.accessToken}`,
-      "Content-Type": "application/json"
-    }
-  };
-  axios
-    .get(`https://api.themoviedb.org/4/list/${id}?page=1`, config)
-    .then(res => {
-      dispatch({
-        type: GET_LIST_DATA,
-        payload: res.data
-      });
+  getListDataAPI(id, getState).then(res => {
+    dispatch({
+      type: GET_LIST_DATA,
+      payload: res.data
     });
+  });
 };
 
 export const checkAllLists = (query, movieid) => (dispatch, getState) => {

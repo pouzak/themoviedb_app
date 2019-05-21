@@ -133,3 +133,60 @@ export const searchMoviesAPI = query => {
     throw error;
   });
 };
+
+export const getRequestTokenAPI = () => {
+  return axios(`https://api.themoviedb.org/4/auth/request_token`, {
+    method: "POST",
+    headers: {
+      Authorization: `bearer ${read_access_token}`,
+      "Content-Type": "application/json"
+    },
+    data: {}
+  }).catch(error => {
+    throw error;
+  });
+};
+
+export const getAccessTokenAPI = getState => {
+  return axios(`https://api.themoviedb.org/4/auth/access_token`, {
+    method: "POST",
+    headers: {
+      Authorization: `bearer ${read_access_token}`,
+      "Content-Type": "application/json"
+    },
+    data: {
+      request_token: getState().api.reqToken.request_token
+    }
+  }).catch(error => {
+    throw error;
+  });
+};
+
+export const getAccountListsAPI = getState => {
+  return axios(
+    `https://api.themoviedb.org/4/account/${
+      getState().api.account_id
+    }/lists?page=1`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `bearer ${getState().api.accessToken}`,
+        "Content-Type": "application/json"
+      }
+    }
+  ).catch(error => {
+    throw error;
+  });
+};
+
+export const getListDataAPI = (id, getState) => {
+  return axios(`https://api.themoviedb.org/4/list/${id}?page=1`, {
+    method: "GET",
+    headers: {
+      Authorization: `bearer ${getState().api.accessToken}`,
+      "Content-Type": "application/json"
+    }
+  }).catch(error => {
+    throw error;
+  });
+};
