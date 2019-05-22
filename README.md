@@ -13,7 +13,7 @@ Using themoviedb.org API. </br>
 ### Installation
 
 
- Copy access key and api key to src/services/connection.js:
+ Copy access token and api key to src/services/connection.js:
  ```sh
 export const read_access_token = "{your_access_token}";
 export const api_key = "{your_api_key}";
