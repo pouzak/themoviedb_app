@@ -113,7 +113,7 @@ export const clearMovies = () => ({
 });
 
 export const searchMovies = query => (dispatch, getState) => {
-  if (query.length > 3) {
+  if (query.length > 2) {
     searchMoviesAPI(query).then(res =>
       dispatch({
         type: SEARCH_MOVIES,

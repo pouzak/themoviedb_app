@@ -14,7 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 const image = "https://image.tmdb.org/t/p/w500";
 
-class Movie extends Component {
+export class Movie extends Component {
   constructor() {
     super();
     this.state = {
@@ -127,7 +127,9 @@ class Movie extends Component {
               <p>Genres: {this.renderGenres(movie.genre_ids)}</p>
               <p>Release date: {movie.release_date}</p>
               <hr />
-              <p className="movie-review">{movie.overview}</p>
+              <p className="movie-review" e2e="movie-card__article">
+                {movie.overview}
+              </p>
               <div>
                 <div className="center">
                   <Button
@@ -145,6 +147,7 @@ class Movie extends Component {
                     </i>
                   </Button>
                   <Button
+                    e2e="button__back"
                     onClick={() => this.props.handleSelect("")}
                     variant="outlined"
                     color="primary"

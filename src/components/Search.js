@@ -39,7 +39,7 @@ class Search extends Component {
     });
 
     this.handleSearch();
-    if (input.length === 4) {
+    if (input.length === 2) {
       this.props.clearMovies();
     }
   };
@@ -64,7 +64,7 @@ class Search extends Component {
     return (
       <div>
         {movies.map(movie => (
-          <div key={movie.id}>
+          <div key={movie.id} e2e="autocomplete__list__item">
             <p
               onClick={() => {
                 handleSelect(movie);
@@ -84,6 +84,7 @@ class Search extends Component {
         <div className="input-container center" style={{ paddingTop: "7%" }}>
           <i className="material-icons">search</i>
           <input
+            e2e="autocomplete__input"
             className="input"
             onChange={this.hendleInput}
             onFocus={this.dropdownHandle}
@@ -98,7 +99,9 @@ class Search extends Component {
         </div>
 
         {dropdown && (
-          <div className="search-container">{this.renderResults()}</div>
+          <div className="search-container" e2e="autocomplete__list">
+            {this.renderResults()}
+          </div>
         )}
       </div>
     );

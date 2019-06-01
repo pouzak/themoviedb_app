@@ -1,0 +1,17 @@
+{
+  "projectId": "Moviedbapp",
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "APP_NAME": "MovieDB"
+  },
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "results/test-output.xml",
+    "to console": true
+  },
+  "defaultCommandTimeout": 4000,
+  "integrationFolder": "cypress/tests",
+  "video": false,
+  "viewportHeight": 1000,
+  "viewportWidth": 1240
+}
